@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — HalalCheckBot{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>📊 Dashboard</h2>
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-number">{{ ingredient_count }}</div>
+            <div class="stat-label">Ingredients</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">{{ restaurant_count }}</div>
+            <div class="stat-label">Restaurants</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">{{ user_count }}</div>
+            <div class="stat-label">Users</div>
+        </div>
+    </div>
+</div>
+
+{% if not authenticated %}
+<div class="card">
+    <h3>🔐 Admin Login</h3>
+    <form method="post">
+        <input type="password" name="password" placeholder="Admin password" required>
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+</div>
+{% else %}
+<div class="card">
+    <h3>➕ Contribute</h3>
+    <form action="/api/contribute" method="post" id="contribute-form">
+        <select name="type" id="contribute-type">
+            <option value="ingredient">Ingredient</option>
+            <option value="restaurant">Restaurant</option>
+        </select>
+        <div id="ingredient-fields">
+            <input type="text" name="name" placeholder="Ingredient name">
+            <select name="status">
+                <option value="halal">Halal</option>
+                <option value="haram">Haram</option>
+                <option value="mushbooh">Mushbooh (doubtful)</option>
+                <option value="halal_if_no_alcohol">Halal if no alcohol</option>
+            </select>
+            <input type="text" name="code" placeholder="E-number code (optional)">
+            <input type="text" name="source" placeholder="Source (Quran/hadith/scholarly opinion)">
+            <textarea name="explanation" placeholder="Explanation" rows="3"></textarea>
+        </div>
+        <div id="restaurant-fields" style="display:none;">
+            <input type="text" name="name" placeholder="Restaurant name">
+            <input type="text" name="city" placeholder="City">
+            <input type="text" name="country" placeholder="Country">
+            <input type="text" name="address" placeholder="Address">
+            <input type="text" name="cuisine_type" placeholder="Cuisine type">
+            <input type="text" name="halal_status" placeholder="Halal status">
+            <input type="text" name="source_certification" placeholder="Certification source">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('contribute-type').addEventListener('change', function() {
+    var ing = document.getElementById('ingredient-fields');
+    var res = document.getElementById('restaurant-fields');
+    if (this.value === 'restaurant') {
+        ing.style.display = 'none';
+        res.style.display = 'block';
+    } else {
+        ing.style.display = 'block';
+        res.style.display = 'none';
+    }
+});
+</script>
+
+<div class="card">
+    <h3>📋 Recent Entries</h3>
+    <a href="/admin" class="btn btn-secondary">View Admin Panel</a>
+    <a href="/logout" class="btn btn-secondary">Logout</a>
+</div>
+{% endif %}
+{% endblock %}
