@@ -11,7 +11,7 @@ from . import database as db
 from . import classifier
 from . import ocr_processor
 from . import keyboards as kb
-from . import cmd_stats as stats_cmd
+
 
 logger = logging.getLogger(__name__)
 
@@ -455,7 +455,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "cmd_restaurant":
         await query.edit_message_text("🍽️ Send me a city name: /restaurant \<city\>")
     elif data == "cmd_stats":
-        await stats_cmd.cmd_stats(update, context)
+        await cmd_stats(update, context)
     elif data.startswith("vote_"):
         # Parse vote callback: vote_restaurant_42_1
         parts = data.split("_")
