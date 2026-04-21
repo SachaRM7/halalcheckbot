@@ -42,6 +42,7 @@ def main():
     app.add_handler(CommandHandler("stats", handlers.cmd_stats))
     app.add_handler(CommandHandler("about", handlers.cmd_about))
     app.add_handler(CommandHandler("donate", handlers.cmd_donate))
+    app.add_handler(CommandHandler("help", handlers.cmd_help))
 
     # Callback queries (inline keyboard)
     app.add_handler(CallbackQueryHandler(handlers.handle_callback))

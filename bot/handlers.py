@@ -11,6 +11,7 @@ from . import database as db
 from . import classifier
 from . import ocr_processor
 from . import keyboards as kb
+from . import cmd_stats as stats_cmd
 
 logger = logging.getLogger(__name__)
 
@@ -415,6 +416,27 @@ async def cmd_donate(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Handle /help command."""
+    help_text = (
+        "🕌 *HalalCheckBot — Available Commands*\n\n"
+        "*Ingredient Verification*\n"
+        "• /check <ingredient> — Verify if an ingredient is halal\n"
+        "• /scan — Upload a photo of a product for OCR analysis\n\n"
+        "*Restaurant Search*\n"
+        "• /restaurant <city> — Find halal restaurants in a city\n"
+        "• /restaurant add — Add a new restaurant to the database\n\n"
+        "*Community*\n"
+        "• /vote <id> <up/down> — Vote on community submissions\n\n"
+        "*Information*\n"
+        "• /stats — View bot statistics\n"
+        "• /about — About HalalCheckBot\n"
+        "• /help — Show this help message\n\n"
+        "_Use /start to see the main menu_"
+    )
+    await update.message.reply_text(help_text, parse_mode="Markdown")
+
+
 async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle inline keyboard callbacks."""
     query = update.callback_query
@@ -433,7 +455,7 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif data == "cmd_restaurant":
         await query.edit_message_text("🍽️ Send me a city name: /restaurant \<city\>")
     elif data == "cmd_stats":
-        await cmd_stats(update, context)
+        await stats_cmd.cmd_stats(update, context)
     elif data.startswith("vote_"):
         # Parse vote callback: vote_restaurant_42_1
         parts = data.split("_")
