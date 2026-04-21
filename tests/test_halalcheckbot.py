@@ -7,6 +7,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from bot import database as db
 from bot import classifier
+from bot.cmd_stats import build_stats_message
 
 
 def test_ingredient_status_values():
@@ -72,6 +73,15 @@ def test_stats():
     assert "restaurants" in stats
     assert "users" in stats
     assert stats["ingredients"] >= 0
+
+
+def test_stats_message():
+    """Test /stats message formatting."""
+    message = build_stats_message()
+    assert "HalalCheckBot Statistics" in message
+    assert "Ingredients in database" in message
+    assert "Restaurants" in message
+    assert "Active users" in message
 
 
 def test_restaurant_add():
