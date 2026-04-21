@@ -16,6 +16,7 @@ from telegram.ext import (
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from bot import handlers
+from bot.cmd_feedback import cmd_feedback
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -42,6 +43,7 @@ def main():
     app.add_handler(CommandHandler("stats", handlers.cmd_stats))
     app.add_handler(CommandHandler("about", handlers.cmd_about))
     app.add_handler(CommandHandler("donate", handlers.cmd_donate))
+    app.add_handler(CommandHandler("feedback", cmd_feedback))
 
     # Callback queries (inline keyboard)
     app.add_handler(CallbackQueryHandler(handlers.handle_callback))

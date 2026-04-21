@@ -43,5 +43,6 @@ def main_menu_keyboard() -> InlineKeyboardMarkup:
         [InlineKeyboardButton("📷 OCR scan", callback_data="cmd_scan")],
         [InlineKeyboardButton("🍽️ Find restaurant", callback_data="cmd_restaurant")],
         [InlineKeyboardButton("📊 Statistics", callback_data="cmd_stats")],
+        [InlineKeyboardButton("💬 Feedback", callback_data="cmd_feedback")],
     ]
     return InlineKeyboardMarkup(keyboard)

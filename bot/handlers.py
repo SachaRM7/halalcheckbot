@@ -12,8 +12,7 @@ from . import classifier
 from . import ocr_processor
 from . import keyboards as kb
 from .cmd_stats import cmd_stats
-
-logger = logging.getLogger(__name__)
+from .cmd_feedback import cmd_feedback
 
 # Rate limiting: user_id -> (count, window_start) — protected by asyncio.Lock
 AI_CHECK_RATELIMIT = {}
@@ -92,6 +91,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• /vote \<id\> \<up/down\> — Vote on community entries\n"
         "• /stats — View database statistics\n"
         "• /about — About this project\n\n"
+        "• /feedback \<message\> — Send feedback to maintainers\n\n"
         "🔒 *Note:* Always verify critical decisions with trusted scholars. "
         "This tool assists but does not replace Islamic authority.\n\n"
         "*JAK!* (Thank you — Malay)"
@@ -423,6 +423,8 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text("🍽️ Send me a city name: /restaurant \<city\>")
     elif data == "cmd_stats":
         await cmd_stats(update, context)
+    elif data == "cmd_feedback":
+        await cmd_feedback(update, context)
     elif data.startswith("vote_"):
         # Parse vote callback: vote_restaurant_42_1
         parts = data.split("_")
