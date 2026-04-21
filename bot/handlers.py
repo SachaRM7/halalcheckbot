@@ -11,7 +11,8 @@ from . import database as db
 from . import classifier
 from . import ocr_processor
 from . import keyboards as kb
-
+from .cmd_stats import cmd_stats
+from .cmd_feedback import cmd_feedback
 
 logger = logging.getLogger(__name__)
 
@@ -92,6 +93,7 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "• /vote \<id\> \<up/down\> — Vote on community entries\n"
         "• /stats — View database statistics\n"
         "• /about — About this project\n\n"
+        "• /feedback \<message\> — Send feedback to maintainers\n\n"
         "🔒 *Note:* Always verify critical decisions with trusted scholars. "
         "This tool assists but does not replace Islamic authority.\n\n"
         "*JAK!* (Thank you — Malay)"
@@ -370,18 +372,6 @@ async def cmd_vote(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /stats command."""
-    stats = db.get_stats()
-    await update.message.reply_text(
-        "📊 *HalalCheckBot Statistics*\n\n"
-        f"🧪 Ingredients in database: {stats.get('ingredients', 0)}\n"
-        f"🍽️ Restaurants: {stats.get('restaurants', 0)}\n"
-        f"👤 Active users: {stats.get('users', 0)}\n\n"
-        "_Help grow the database by contributing!_",
-        parse_mode="Markdown",
-    )
-
 
 async def cmd_about(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Handle /about command."""
@@ -456,6 +446,8 @@ async def handle_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await query.edit_message_text("🍽️ Send me a city name: /restaurant \<city\>")
     elif data == "cmd_stats":
         await cmd_stats(update, context)
+    elif data == "cmd_feedback":
+        await cmd_feedback(update, context)
     elif data.startswith("vote_"):
         # Parse vote callback: vote_restaurant_42_1
         parts = data.split("_")

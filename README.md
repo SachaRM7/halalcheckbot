@@ -78,6 +78,7 @@ docker-compose up --build
 | `/stats` | View database statistics |
 | `/about` | About HalalCheckBot |
 | `/donate` | Support the project |
+| `/feedback <message>` | Open a prefilled feedback form for maintainers |
 
 ---
 
@@ -140,6 +141,7 @@ halalcheckbot/
 │   ├── __init__.py
 │   ├── main.py          # Bot entry point
 │   ├── handlers.py      # Telegram command handlers
+│   ├── cmd_feedback.py  # /feedback command handler
 │   ├── database.py      # SQLite operations
 │   ├── classifier.py     # MiniMax AI classification
 │   ├── ocr_processor.py # Image OCR processing
