@@ -11,9 +11,8 @@ from . import database as db
 from . import classifier
 from . import ocr_processor
 from . import keyboards as kb
+from .cmd_stats import cmd_stats
 from .cmd_feedback import cmd_feedback
-
-logger = logging.getLogger(__name__)
 
 # Rate limiting: user_id -> (count, window_start) — protected by asyncio.Lock
 AI_CHECK_RATELIMIT = {}
@@ -370,18 +369,6 @@ async def cmd_vote(update: Update, context: ContextTypes.DEFAULT_TYPE):
         parse_mode="Markdown",
     )
 
-
-async def cmd_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """Handle /stats command."""
-    stats = db.get_stats()
-    await update.message.reply_text(
-        "📊 *HalalCheckBot Statistics*\n\n"
-        f"🧪 Ingredients in database: {stats.get('ingredients', 0)}\n"
-        f"🍽️ Restaurants: {stats.get('restaurants', 0)}\n"
-        f"👤 Active users: {stats.get('users', 0)}\n\n"
-        "_Help grow the database by contributing!_",
-        parse_mode="Markdown",
-    )
 
 
 async def cmd_about(update: Update, context: ContextTypes.DEFAULT_TYPE):
