@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}HalalCheckBot — Verify Halal Ingredients{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>🔍 Verify Halal Status</h2>
+    <form action="/api/search" method="get" class="search-bar">
+        <input type="text" name="q" placeholder="Enter ingredient name (e.g. gelatin, E120, salt)" value="{{ search_query }}">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>📊 Community Statistics</h2>
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-number">{{ stats.get('ingredients', 0) }}</div>
+            <div class="stat-label">Ingredients</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">{{ stats.get('restaurants', 0) }}</div>
+            <div class="stat-label">Restaurants</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">{{ stats.get('users', 0) }}</div>
+            <div class="stat-label">Users</div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>🍽️ Find Halal Restaurants</h2>
+    <form action="/api/restaurants" method="get" class="search-bar">
+        <input type="text" name="city" placeholder="Enter city name">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>🕌 About HalalCheckBot</h2>
+    <p>An open-source, community-driven halal verification tool for the Oummah (Muslim community).</p>
+    <br>
+    <p><strong>Features:</strong></p>
+    <ul>
+        <li>Instant ingredient verification with scholarly explanations</li>
+        <li>OCR scanning of product ingredient lists</li>
+        <li>Halal restaurant search by city</li>
+        <li>Community voting for transparent trust scores</li>
+        <li>AI-assisted classification for unknown ingredients</li>
+    </ul>
+    <br>
+    <p><strong>⚠️ Disclaimer:</strong> This tool provides informational assistance only. Always verify critical decisions with qualified Islamic scholars.</p>
+</div>
+{% endblock %}
